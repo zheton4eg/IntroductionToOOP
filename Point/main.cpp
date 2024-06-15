@@ -39,6 +39,20 @@ public:
 		this->y = y;
 		cout << "Constructor: \t" << this << endl;
 	}
+
+	Point& operator++()
+	{
+		x++;
+		y++;
+		return *this;
+	}
+	Point& operator++(int)
+	{
+		Point old = *this;
+		x++;
+		y++;
+		return old;
+	}
 	double distance(Point other)
 	{
 		double x_distance = this->x - other.x;
@@ -56,17 +70,56 @@ public:
 	}
 
 };
+Point operator+(const Point& left, const Point& right)
+{
+	Point resoult;
+	resoult.set_x(left.get_x() + right.get_x());
+	resoult.set_y(left.get_y() + right.get_y());
+	return resoult;
+}
+bool operator==(const Point& left, const Point& right)
+{
+	/*if (left.get_x() == right.get_x() && left.get_y() == right.get_y())
+		return true;
+	else
+		return false;*/
+
+	return left.get_x() == right.get_x() && left.get_y() == right.get_y();
+
+}
+std::ostream& operator<<(std::ostream& os, const Point& obj)
+{
+	os << "X = " << obj.get_x() << "\tY = " << obj.get_y();
+	return os;
+}
+
 double distance(Point A, Point B);
 void main()
 {
 	setlocale(LC_ALL, "");
 	cout << "Hello OOP!" << endl;
+	//Point A(2, 3);
+	//Point B(7,8);
+	//A.print();
+	//B.print();	
+	//cout << "Расстояние от точки 'A' до точки 'B': " << A.distance(B) << endl;
+	//cout << "Расстояние между точками 'В' и 'А': " << distance(B, A) << endl;
+
+	//Point C = A + B;
+	//C.print();
+
+	//C++;
+	//C.print();
+
+	//Point D = C++;
+	//C.print();
+	//D.print();
+	//cout << (2 == 3);
+
+	//cout << (Point (2,3)==Point (2,3)) << endl;
+	 
 	Point A(2, 3);
-	Point B(7,8);
-	A.print();
-	B.print();	
-	cout << "Расстояние от точки 'A' до точки 'B': " << A.distance(B) << endl;
-	cout << "Расстояние между точками 'В' и 'А': " << distance(B, A) << endl;
+	cout << A<<endl;
 }
 double distance(Point A, Point B)
 {
