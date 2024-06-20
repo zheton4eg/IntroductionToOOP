@@ -56,6 +56,17 @@ public:
 		set_denominator(1);
 		cout << "singleArgumentContructor: " << this << endl;
 	}
+	Fraction(double decimal)
+	{
+		//decimal - десятичный
+		//decimal +=1e-10;
+		integer = decimal;//сохраняем целую часть
+		decimal -= integer;
+		denominator = 1e+9;   //записываем максимально возможный знаминатель
+		numerator = decimal * denominator+ .5;
+		cout << "DoubleConstractor:\t" << this << endl;
+	}
+
 	Fraction(int numerator, int denominator)
 	{
 		this->integer = 0;
@@ -96,6 +107,7 @@ public:
 		this->denominator = other.denominator;
 		cout << "CopyConstructor: \t " << this << endl;
 	}
+
 	~Fraction()
 	{
 		cout << "Destructor:\t\t" << this << endl;
@@ -103,6 +115,7 @@ public:
 
 	//       Methods:
 
+	
 	Fraction& to_improper()
 	{
 		numerator += integer * denominator;
@@ -303,7 +316,7 @@ void main()
 	cout << B << endl;
 */
 
-	Fraction A = (Fraction)5; //Conversion from less to more(from 'int' to 'Fraction')
+	//Fraction A = (Fraction)5; //Conversion from less to more(from 'int' to 'Fraction')
 	//Single-Argument Constructor
 
 #ifdef CONVERSION_FROM_OTHER_TO_CLASS
@@ -320,7 +333,7 @@ void main()
 #endif // CONVERSION_FROM_OTHER_TO_CLASS
 
 #ifdef CONVERSIONS_HOME_WORK
-	Fraction A = 2.75;
+	Fraction A = 3.333; //Conversion from 'double' to 'Fraction'
 	cout << A << endl;
 #endif // CONVERSIONS_HOME_WORK
 
