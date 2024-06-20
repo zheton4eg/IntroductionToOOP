@@ -1,5 +1,7 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 using namespace std;
+#define delimeter "\n-----------------------------------------------------\n"
 
 class Fraction;
 Fraction operator*(Fraction left, Fraction right);
@@ -47,7 +49,7 @@ public:
 	}
 	//single-argumenr constructor
 
-	Fraction(int integer)
+	explicit Fraction(int integer)
 	{
 		this->integer = integer;
 		this->numerator = 0;
@@ -78,6 +80,21 @@ public:
 	Fraction& operator/=(Fraction& other)
 	{
 		return *this = *this / other;
+	}
+	Fraction& operator=(const Fraction& other)
+	{
+		this->integer = other.integer;
+		this->numerator = other.numerator;
+		this->denominator = other.denominator;
+		cout << "CopyAssignment: \t\t " << this << endl;
+		return *this;
+	}
+	Fraction(const Fraction& other)
+	{
+		this->integer = other.integer;
+		this->numerator = other.numerator;
+		this->denominator = other.denominator;
+		cout << "CopyConstructor: \t " << this << endl;
 	}
 	~Fraction()
 	{
@@ -174,7 +191,7 @@ bool operator==(Fraction left, Fraction right)
 	right.to_improper();
 	return left.get_numerator() * right.get_denominator() == right.get_numerator() * left.get_denominator();
 }
-bool operator!=(const Fraction& left,const Fraction& right)
+bool operator!=(const Fraction& left, const Fraction& right)
 {
 	return !(left == right);
 }
@@ -200,9 +217,50 @@ bool operator<=(const Fraction& left, const Fraction& right)
 {
 	return !(left > right);
 }
+std::ostream& operator<<(std::ostream& os, const Fraction& obj)
+{
+	if (obj.get_integer())os << obj.get_integer();
+	if (obj.get_numerator())
+	{
+		if (obj.get_integer())cout << "(";
+		os << obj.get_numerator() << "/" << obj.get_denominator();
+		if (obj.get_integer())os << ")";
+	}
+	else if (obj.get_integer() == 0)os << 0;
+	return os;
+}
+std::istream& operator>>(std::istream& is, Fraction& obj)
+{
+	/*int integer, numerator, denominator;
+	is >> integer >> numerator >> denominator;
+	obj = Fraction(integer, numerator, denominator);*/
+	const int SIZE = 256;
+	char buffer[SIZE] = {};
+	//is >> buffer;
+	is.getline(buffer, SIZE);
+
+	int numbers[3] = {};
+	int n = 0;
+	const char delimeters[] = " /()";
+	for (char* pch = strtok(buffer, delimeters); pch; pch = strtok(NULL, delimeters))
+		numbers[n++] = atoi(pch);//‘ункци€ atoi()принимает строку, и возвращает целочисленный аналог этой строки,
+	//т.е, строку преобразует в число.
+//for (int i = 0; i < n; i++)cout << numbers[i] << "\t"; cout << endl;
+
+	switch (n)
+	{
+	case 1: obj = Fraction(numbers[0]); break;
+	case 2: obj = Fraction(numbers[0], numbers[1]); break;
+	case 3: obj = Fraction(numbers[0], numbers[1], numbers[2]); break;
+	}
+	return is;
+}
+
 
 //#define Constructors_check
 //#define ARITHMETICAL_OPERATORS_CHECK
+//#define CONVERSION_FROM_OTHER_TO_CLASS
+#define CONVERSIONS_HOME_WORK
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -239,6 +297,31 @@ void main()
 	A.print();
 #endif // ARITHMETICAL_OPERATORS_CHECK
 
-	cout << (Fraction(1, 2) <= Fraction(5, 11)) << endl;
+	/*
+	Fraction B;
+	cout << "¬ведите простую дробь: "; cin >> B;
+	cout << B << endl;
+*/
+
+	Fraction A = (Fraction)5; //Conversion from less to more(from 'int' to 'Fraction')
+	//Single-Argument Constructor
+
+#ifdef CONVERSION_FROM_OTHER_TO_CLASS
+	cout << A << endl;
+
+	cout << delimeter << endl;
+	Fraction B;
+
+	B = Fraction(8);          //Conversion from less to more (from 'int' to 'Fraction')
+	//Copy Assignment
+
+	cout << B << endl;
+	cout << delimeter << endl;
+#endif // CONVERSION_FROM_OTHER_TO_CLASS
+
+#ifdef CONVERSIONS_HOME_WORK
+	Fraction A = 2.75;
+	cout << A << endl;
+#endif // CONVERSIONS_HOME_WORK
 
 }
