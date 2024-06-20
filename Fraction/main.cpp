@@ -113,6 +113,17 @@ public:
 		cout << "Destructor:\t\t" << this << endl;
 	}
 
+	explicit operator int()
+	{
+		return to_proper().integer;
+		//to_proper();
+		//return integer;
+	}
+	 explicit operator double()const
+	{	
+		return integer + (double)numerator /denominator;
+	}
+
 	//       Methods:
 
 	
@@ -273,7 +284,7 @@ std::istream& operator>>(std::istream& is, Fraction& obj)
 //#define Constructors_check
 //#define ARITHMETICAL_OPERATORS_CHECK
 //#define CONVERSION_FROM_OTHER_TO_CLASS
-#define CONVERSIONS_HOME_WORK
+//#define CONVERSIONS_HOME_WORK
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -336,5 +347,13 @@ void main()
 	Fraction A = 3.333; //Conversion from 'double' to 'Fraction'
 	cout << A << endl;
 #endif // CONVERSIONS_HOME_WORK
+
+	Fraction A(2, 3, 4);
+	A.to_improper();
+	int a = (int)A;
+	cout << A << endl;
+	cout << a << endl;
+	double da = (double)A;
+	cout << da << endl;
 
 }
