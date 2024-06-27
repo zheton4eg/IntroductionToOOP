@@ -20,25 +20,25 @@ public:
 		return str;
 	}
 	//        Constructors:
-	explicit String(int size = 80)
+	explicit String(int size = 80):size(size), str(new char[size]{})
 	{
-		this->size = size;
-		this->str = new char[size] {};
+		//this->size = size;
+		//this->str = new char[size] {};
 		cout << "Constructor: \t" << this << endl;
 	}
-	String(const char str[])
+	String(const char str[]): size(strlen(str)+1), str(new char[size]{})
 	{
-		this->size = strlen(str) + 1;
+		//this->size = strlen(str) + 1;
 		//Функция strlen() возвращает размер строки в символах,
 		//и нам нужно добавить еще один Байт для NULL-Terminator-a
-		this->str = new char[size] {};
+		//this->str = new char[size] {};
 		for (int i = 0; i < size; i++)this->str[i] = str[i];
 		cout << "Сonstructor: \t" << this << endl;
 	}
-	String(const String& other)
-	{
-		this->size = other.size;
-		this->str = new char[size] {};
+	String(const String& other):size(other.size), str(new char[size]{})
+	{   //DeepCopy - побитовое копирование
+		//this->size = other.size;
+		//this->str = new char[size] {};
 		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
 		cout << "CopyConstructor: " << this << endl;
 	}
@@ -119,10 +119,12 @@ std::ostream& operator<<(std::ostream& os, const String& obj)
 
 #define OPERATOR_PLUS_CHECK
 //#define CONSTRUCTORS_CHECK
+//#define CALLING_CONSTRUCTOR
 
 void main()
 {
 	setlocale(LC_ALL, "");
+#ifdef OPERATOR_PLUS_CHECK
 
 	String str1 = "Hello";
 	String str2 = "World";
@@ -136,6 +138,38 @@ void main()
 
 	cout << str1 << endl;
 	cout << str2 << endl;
+#endif // OPERATOR_PLUS_CHECK
+
+#ifdef CALLING_CONSTRUCTOR
+	String str1;  //default constructor
+	str1.print();
+
+	//Single-Argument constructor 'int'
+	//String str2 = 8; //explicit constructor так вызвать невозможно
+	String str2(8);    //explicit constructor можно вызвать только так
+	str2.print();
+
+	String str3 = "Hello"; //Single-Argument constructro 'char'
+    str3.print();
+
+	String str4();         //Default constructor//Здесь не вызывается никакой конструктор, и не создаётся объект,
+	                       //здесь объявляется функция str4(), которая не принимает никаких параметров
+	                       //и возвращает значение типа 'String'.
+	                       // т.е таким образом вызывать defaultConstructor НЕВОЗМОЖНО,
+	//str3.print();
+	//Если нужно явно вызвать DefaultConstructor, это делается следующим образом:
+	String str5{}; //Явный вызов конструктора по умолчанию
+	str5.print();
+
+	//String str6 = str3; //CopyConstructor
+	//String str6(str3); //CopyConstructor
+	String str6{str3}; //CopyConstructor
+
+	str6.print();
+
+	//Следовательно, абсолютно любой конструктор можно вызватю при помощи () или {}
+#endif // CALLING_CONSTRUCTOR
+
 
 	
 
