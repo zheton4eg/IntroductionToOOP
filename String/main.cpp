@@ -5,7 +5,7 @@ class String
 {
 	int size;       //размер строки
 	char* str;      //указатель на строку в памяти
-	 
+
 public:
 	int get_size()const
 	{
@@ -15,7 +15,7 @@ public:
 	{
 		return str;
 	}
-	 char* get_str()
+	char* get_str()
 	{
 		return str;
 	}
@@ -45,9 +45,9 @@ public:
 
 	String(String&& other)noexcept//r-value reference
 	{
-        //Shallow copy:
+		//Shallow copy:
 		this->size = other.size;
-		this-> str = other.str; //shallow copy
+		this->str = other.str; //shallow copy
 
 		//Reset other:
 		other.size = 0;
@@ -70,11 +70,24 @@ public:
 		cout << "CopyAssignemt: " << this << endl;
 		return *this;
 	}
+
+	String& operator=(String&& other)noexcept //r-value reference
+	{
+		if (this == &other)return *this;
+		delete[]this->str;
+		this->size = other.size;
+		this->str = other.str;
+		other.size = 0;
+		other.str = nullptr;
+		cout << "MoveAssignment: \t" << this << endl;
+		return *this;
+
+	}
 	const char& operator[](int i)const
 	{
 		return str[i];
 	}
-	 char& operator[](int i)
+	char& operator[](int i)
 	{
 		return str[i];
 	}
@@ -114,15 +127,17 @@ void main()
 	String str1 = "Hello";
 	String str2 = "World";
 
+	//String str3 = str1 + str2;
+	String str3;
 	cout << delimiter << endl;
-	String str3 = str1 + str2;
+	str3 = str1 + str2;
+	cout << delimiter << endl;
 	cout << str3 << endl;
-	cout << delimiter << endl;
 
 	cout << str1 << endl;
 	cout << str2 << endl;
 
-
+	
 
 #ifdef CONSTRUCTORS_CHECK
 
