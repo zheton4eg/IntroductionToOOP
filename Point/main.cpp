@@ -1,10 +1,12 @@
-#include<iostream>
+
+#include <iostream>
 using namespace std;
+
 
 class Point
 {
-	double x;
-	double y;
+	int x;
+	int y;
 public:
 	double get_x()const
 	{
@@ -92,8 +94,14 @@ std::ostream& operator<<(std::ostream& os, const Point& obj)
 	os << "X = " << obj.get_x() << "\tY = " << obj.get_y();
 	return os;
 }
-
-double distance(Point A, Point B);
+double distance(Point A, Point B)
+{
+	double x_distance = A.get_x() - B.get_x();
+	double y_distance = A.get_y() - B.get_y();
+	double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
+	return distance;
+	
+}
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -117,14 +125,7 @@ void main()
 	//cout << (2 == 3);
 
 	//cout << (Point (2,3)==Point (2,3)) << endl;
-	 
+
 	Point A(2, 3);
-	cout << A<<endl;
-}
-double distance(Point A, Point B)
-{
-	double x_distance = A.get_x() - B.get_x();
-	double y_distance = A.get_y() - B.get_y();
-	double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
-	return distance;
+	cout << A << endl;
 }
